@@ -8,6 +8,12 @@ class Convertir extends StatefulWidget {
 }
 
 class _ConvertirState extends State<Convertir> {
+  List<List<double>> factor = [
+    [1, 4000, 5000],
+    [0.00025, 1, 1.25],
+    [0.0002, 0.8, 1],
+  ];
+
   bool pesoO = false;
   bool dollarO = false;
   bool euroO = false;
@@ -15,8 +21,11 @@ class _ConvertirState extends State<Convertir> {
   bool pesoD = false;
   bool dollarD = false;
   bool euroD = false;
-  TextEditingController divA = TextEditingController();
-  TextEditingController divB = TextEditingController();
+  TextEditingController divA = TextEditingController(text: '0.0');
+  TextEditingController divB = TextEditingController(text: '0.0');
+
+  int indO = 0;
+  int indD = 0;
 
   void cambiarestadoO(String moneda) {
     if (moneda == 'COP') {
@@ -24,21 +33,24 @@ class _ConvertirState extends State<Convertir> {
       if (pesoO == true) {
         dollarO = false;
         euroO = false;
+        indO = 0;
       }
     } else if (moneda == 'USD') {
       dollarO = dollarO ? false : true;
       if (dollarO == true) {
         pesoO = false;
         euroO = false;
+        indO = 1;
       }
     } else if (moneda == 'EUR') {
       euroO = euroO ? false : true;
       if (euroO == true) {
         pesoO = false;
         dollarO = false;
+        indO = 2;
       }
     }
-
+    convierte();
     setState(() {});
   }
 
@@ -48,34 +60,36 @@ class _ConvertirState extends State<Convertir> {
       if (pesoD == true) {
         dollarD = false;
         euroD = false;
+        indD = 0;
       }
     } else if (moneda == 'USD') {
       dollarD = dollarD ? false : true;
       if (dollarD == true) {
         pesoD = false;
         euroD = false;
+        indD = 1;
       }
     } else if (moneda == 'EUR') {
       euroD = euroD ? false : true;
       if (euroD == true) {
         pesoD = false;
         dollarD = false;
+        indD = 2;
       }
     }
-
+    convierte();
     setState(() {});
   }
 
   void valores(String p) {
+    if (divA.text == '0.0') divA.clear();
     divA.text = divA.text + p;
-    convierte();
   }
 
   void convierte() {
-    if (pesoO && dollarD) {
-      double valorO = double.parse(divA.text);
-      divB.text = (valorO / 5100).toString();
-    }
+    double valorO = double.parse(divA.text);
+    divB.text = (valorO * factor[indD][indO]).toString();
+    print(factor);
   }
 
   @override
@@ -195,8 +209,8 @@ class _ConvertirState extends State<Convertir> {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               GestureDetector(
                 onTap: () {
-                  divA.clear();
-                  divB.clear();
+                  divA.text = '0.0';
+                  divB.text = '0.0';
                 },
                 child: const boton1(valor: 'RESET'),
               ),
