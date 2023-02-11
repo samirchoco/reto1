@@ -50,7 +50,7 @@ class _ConvertirState extends State<Convertir> {
         indO = 2;
       }
     }
-    convierte();
+    convierte(); // cambiar estado
     setState(() {});
   }
 

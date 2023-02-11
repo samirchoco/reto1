@@ -7,7 +7,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Conversor De Monedas",
+      title: "Conversor",
       theme: ThemeData(primarySwatch: Colors.red),
       debugShowCheckedModeBanner: false,
       home: const Convertir(),
